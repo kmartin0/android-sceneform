@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Sceneform Poly Example</string>
+    <string name="qr_scanner">Qr scanner</string>
+
+    <!--Ar Strings-->
+    <string name="ar_error">Oops something went wrong.</string>
+    <string name="unable_read_file">Unable to read file.</string>
+    <string name="move_object_down_in_the_air">Move object down in the air</string>
+    <string name="move_object_up_in_the_air">Move object up in the air</string>
+    <string name="take_a_snapshot">Take a snapshot</string>
+    <string name="back">Back</string>
+    <string name="rotate_clockwise">Rotate Clockwise</string>
+    <string name="rotate_counter_clockwise">Rotate Counter Clockwise</string>
+    <string name="rotate_upward">Rotate upward</string>
+    <string name="shin">Shin</string>
+    <string name="rotate_downward">Rotate downward</string>
+    <string name="model_thumbnail">Model thumbnail</string>
+    <string name="shrink">Shrink</string>
+    <string name="enlarge">Enlarge</string>
+    <string name="remove">Remove</string>
+    <string name="add_model">Add Model</string>
+</resources>

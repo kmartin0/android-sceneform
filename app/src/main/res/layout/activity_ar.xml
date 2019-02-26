@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.kmartin0.sceneformpolyexample.ui.ar.ARViewModel" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/fragment_ar"
+            android:name="com.kmartin0.sceneformpolyexample.ui.ar.CustomArFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            style="@style/ARBackButton"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_capture"
+            style="@style/ARBackButton"
+            android:contentDescription="@string/take_a_snapshot"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_back" />
+
+        <ImageButton
+            android:id="@+id/btn_move_up"
+            style="@style/ArBottomBarButton2"
+            android:contentDescription="@string/move_object_up_in_the_air"
+            android:src="@drawable/ic_arrow_up"
+            app:layout_constraintBottom_toTopOf="@id/btn_rotate_counter_clockwise"
+            app:layout_constraintEnd_toStartOf="@+id/btn_move_down"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_move_down"
+            style="@style/ArBottomBarButton2"
+            android:contentDescription="@string/move_object_down_in_the_air"
+            android:src="@drawable/ic_arrow_down"
+            app:layout_constraintBottom_toTopOf="@id/btn_rotate_counter_clockwise"
+            app:layout_constraintEnd_toStartOf="@+id/shin"
+            app:layout_constraintStart_toEndOf="@+id/btn_move_up" />
+
+        <ImageButton
+            android:id="@+id/shin"
+            style="@style/ArBottomBarButton2"
+            android:contentDescription="@string/shin"
+            app:layout_constraintBottom_toTopOf="@id/btn_rotate_counter_clockwise"
+            app:layout_constraintEnd_toStartOf="@+id/btn_rotate_upward"
+            app:layout_constraintStart_toEndOf="@+id/btn_move_down" />
+
+        <ImageButton
+            android:id="@+id/btn_rotate_upward"
+            style="@style/ArBottomBarButton2"
+            android:contentDescription="@string/rotate_upward"
+            android:padding="20dp"
+            android:src="@drawable/ic_tilt_up"
+            app:layout_constraintBottom_toTopOf="@id/btn_rotate_counter_clockwise"
+            app:layout_constraintEnd_toStartOf="@+id/btn_rotate_downward"
+            app:layout_constraintStart_toEndOf="@+id/shin" />
+
+        <ImageButton
+            android:id="@+id/btn_rotate_downward"
+            style="@style/ArBottomBarButton2"
+            android:contentDescription="@string/rotate_downward"
+            android:padding="20dp"
+            android:src="@drawable/ic_tilt_down"
+            app:layout_constraintBottom_toTopOf="@id/btn_rotate_counter_clockwise"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_rotate_upward" />
+
+        <ImageButton
+            android:id="@+id/btn_rotate_counter_clockwise"
+            style="@style/ArBottomBarButton"
+            android:contentDescription="@string/rotate_counter_clockwise"
+            android:padding="20dp"
+            android:src="@drawable/ic_tilt_left"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_rotate_clockwise"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_rotate_clockwise"
+            style="@style/ArBottomBarButton"
+            android:contentDescription="@string/rotate_clockwise"
+            android:padding="20dp"
+            android:src="@drawable/ic_tilt_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add"
+            app:layout_constraintStart_toEndOf="@+id/btn_rotate_counter_clockwise" />
+
+        <ImageButton
+            android:id="@+id/btn_add"
+            style="@style/ARButtonAdd"
+            android:contentDescription="@string/add_model"
+            android:src="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_enlarge"
+            app:layout_constraintStart_toEndOf="@+id/btn_rotate_clockwise" />
+
+        <ImageButton
+            android:id="@+id/btn_remove"
+            style="@style/ARButtonAdd"
+            android:contentDescription="@string/remove"
+            android:src="@drawable/ic_trash"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_enlarge"
+            app:layout_constraintStart_toEndOf="@+id/btn_rotate_clockwise" />
+
+        <ImageButton
+            android:id="@+id/btn_enlarge"
+            style="@style/ArBottomBarButton"
+            android:contentDescription="@string/enlarge"
+            android:src="@drawable/ic_expand"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_shrink"
+            app:layout_constraintStart_toEndOf="@+id/btn_add" />
+
+        <ImageButton
+            android:id="@+id/btn_shrink"
+            style="@style/ArBottomBarButton"
+            android:contentDescription="@string/shrink"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_shrink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_enlarge" />
+
+        <ProgressBar
+            style="@style/ProgressCircle"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:background="#64000000"
+            android:padding="12dp"
+            tools:ignore="MissingConstraints" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
