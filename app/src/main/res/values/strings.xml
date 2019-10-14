@@ -19,4 +19,6 @@
     <string name="enlarge">Enlarge</string>
     <string name="remove">Remove</string>
     <string name="add_model">Add Model</string>
+    <string name="open_photo">Open in photos</string>
+    <string name="photo_saved">Photo saved</string>
 </resources>

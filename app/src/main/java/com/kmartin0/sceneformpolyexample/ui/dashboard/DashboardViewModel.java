@@ -42,14 +42,14 @@ public class DashboardViewModel extends BaseViewModel {
 
 					@Override
 					public void onSuccess(PolyResponse pollyResponse) {
-//						isLoading.setValue(false);
+						isLoading.setValue(false);
 						Objects.requireNonNull(pollyAssets.getValue()).add(pollyResponse);
 						pollyAssets.setValue(pollyAssets.getValue());
 					}
 
 					@Override
 					public void onError(Throwable e) {
-//						isLoading.setValue(false);
+						isLoading.setValue(false);
 						error.setValue(e.getMessage());
 						e.printStackTrace();
 					}

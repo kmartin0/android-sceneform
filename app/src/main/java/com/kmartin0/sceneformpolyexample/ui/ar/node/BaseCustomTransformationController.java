@@ -1,4 +1,4 @@
-package com.kmartin0.sceneformpolyexample.util.node;
+package com.kmartin0.sceneformpolyexample.ui.ar.node;
 
 import androidx.annotation.NonNull;
 

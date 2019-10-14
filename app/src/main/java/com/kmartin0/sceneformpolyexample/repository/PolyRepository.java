@@ -13,7 +13,7 @@ public class PolyRepository {
 	private PolyApiService polyApi;
 
 	public PolyRepository(Context context) {
-		polyApi = PolyApi.create(context);
+		polyApi = PolyApi.create();
 	}
 
 	public Single<PolyResponse> getPolyAsset(String id) {

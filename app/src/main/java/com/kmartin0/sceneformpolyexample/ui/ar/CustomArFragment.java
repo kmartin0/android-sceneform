@@ -1,12 +1,24 @@
 package com.kmartin0.sceneformpolyexample.ui.ar;
 
 import android.Manifest;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.ar.core.Config;
 import com.google.ar.core.Session;
 import com.google.ar.sceneform.ux.ArFragment;
 
 public class CustomArFragment extends ArFragment {
+
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		getPlaneDiscoveryController().hide();
+		getPlaneDiscoveryController().setInstructionView(null);
+	}
 
 	@Override
 	public void onResume() {

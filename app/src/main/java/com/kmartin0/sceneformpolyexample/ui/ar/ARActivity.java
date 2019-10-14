@@ -1,25 +1,29 @@
 package com.kmartin0.sceneformpolyexample.ui.ar;
 
+import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.kmartin0.sceneformpolyexample.R;
-import com.kmartin0.sceneformpolyexample.base.BaseARActivity;
+import com.kmartin0.sceneformpolyexample.base.SingleModelARActivity;
 import com.kmartin0.sceneformpolyexample.databinding.ActivityArBinding;
+import com.kmartin0.sceneformpolyexample.util.CaptureSceneHelper;
+import com.kmartin0.sceneformpolyexample.util.Constants;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-/**
- * Helpful sources:
- * https://github.com/google-ar/sceneform-android-sdk/issues/201
- * https://github.com/google-ar/sceneform-android-sdk/issues/238
- * https://developers.google.com/ar/reference/java/com/google/ar/sceneform/Scene#addOnUpdateListener(com.google.ar.sceneform.Scene.OnUpdateListener)
- */
-public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
+public class ARActivity extends SingleModelARActivity<ActivityArBinding, ARViewModel>
+		implements CaptureSceneHelper.CaptureSceneHelperCallbacks {
 
 	@BindView(R.id.btn_add)
 	ImageButton btnAdd;
@@ -27,9 +31,14 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 	@BindView(R.id.btn_remove)
 	ImageButton btnRemove;
 
+	private Uri modelURI;
+	private CaptureSceneHelper captureSceneHelper;
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		modelURI = (Uri) Objects.requireNonNull(getIntent().getExtras()).get(Constants.AR_MODEL_URI);
+		captureSceneHelper = new CaptureSceneHelper(this, getArFragment().getArSceneView(), this);
 	}
 
 	/**
@@ -37,9 +46,15 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 	 */
 	@OnClick(R.id.btn_add)
 	public void addObjectToPlane() {
-		if (!isAnchorSet()) {
-			addObject(modelURI);
-		}
+		addObject(modelURI);
+	}
+
+	/**
+	 * Removes the anchorNode from the scene.
+	 */
+	@OnClick(R.id.btn_remove)
+	public void removeObjectFromPlane() {
+		removeObject();
 	}
 
 	/**
@@ -52,11 +67,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startRotateCounterClockwise();
+				getNode().startRotateCounterClockwise();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopRotateCounterClockwise();
+				getNode().stopRotateCounterClockwise();
 				return true;
 			}
 			default:
@@ -74,11 +89,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startRotateClockwise();
+				getNode().startRotateClockwise();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopRotateClockwise();
+				getNode().stopRotateClockwise();
 				return true;
 			}
 			default:
@@ -96,11 +111,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startRotateUpward();
+				getNode().startRotateUpward();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopRotateUpward();
+				getNode().stopRotateUpward();
 				return true;
 			}
 			default:
@@ -118,11 +133,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startRotateDownward();
+				getNode().startRotateDownward();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopRotateDownward();
+				getNode().stopRotateDownward();
 				return true;
 			}
 			default:
@@ -140,11 +155,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startEnlarge();
+				getNode().startEnlarge();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopEnlarge();
+				getNode().stopEnlarge();
 				return true;
 			}
 			default:
@@ -162,11 +177,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startShrink();
+				getNode().startShrink();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopShrink();
+				getNode().stopShrink();
 				return true;
 			}
 			default:
@@ -184,11 +199,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startMoveUp();
+				getNode().startMoveUp();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopMoveUp();
+				getNode().stopMoveUp();
 				return true;
 			}
 			default:
@@ -206,11 +221,11 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN: {
-				node.startMoveDown();
+				getNode().startMoveDown();
 				return true;
 			}
 			case MotionEvent.ACTION_UP: {
-				node.stopMoveDown();
+				getNode().stopMoveDown();
 				return true;
 			}
 			default:
@@ -222,27 +237,63 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 	 * Finish activity
 	 */
 	@OnClick(R.id.btn_back)
-	public void goBack() {
+	public void finishActivity() {
 		finish();
 	}
 
-	/**
-	 * @param clickable boolean Sets the add and remove button clickable status.
-	 */
-	private void setControlButtonsClickable(boolean clickable) {
-		btnAdd.setClickable(clickable);
-		btnRemove.setClickable(clickable);
+	@Override
+	protected void onModelAddedToScene() {
+		btnAdd.setVisibility(View.INVISIBLE);
+		btnRemove.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	protected void onModelRemovedToScene() {
+		btnAdd.setVisibility(View.VISIBLE);
+		btnRemove.setVisibility(View.INVISIBLE);
 	}
 
 	/**
-	 * Shows a loading indicator based on @visibility.
+	 * Create a snapshot of the current ar surface view.
+	 */
+	@OnClick(R.id.btn_capture)
+	public void captureScene() {
+		captureSceneHelper.captureScene();
+	}
+
+	/**
+	 * Display a Snack bar message containing a success message and a button which redirects
+	 * the user to the created snapshot.
 	 *
-	 * @param visibility boolean of the visibility for the loading indicator.
+	 * @param filename String filename of the created snapshot
 	 */
 	@Override
-	public void showLoading(boolean visibility) {
-		super.showLoading(visibility);
-		setControlButtonsClickable(!visibility);
+	public void onCaptureSuccess(String filename) {
+		Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.photo_saved), Snackbar.LENGTH_LONG);
+		snackbar.setAction(getString(R.string.open_photo), v -> captureSceneHelper.openImageForFilename(this, filename));
+		snackbar.show();
+		showLoading(false);
+		getArFragment().getArSceneView().getPlaneRenderer().setVisible(true);
+	}
+
+	/**
+	 * Display the message of the failed capture and set the ArSceneView back to it's normal state.
+	 *
+	 * @param message String message to be displayed.
+	 */
+	@Override
+	public void onCaptureFail(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+		getArFragment().getArSceneView().getPlaneRenderer().setVisible(false);
+		showLoading(false);
+	}
+
+	/**
+	 * Show loading circle when starting the snapshot.
+	 */
+	@Override
+	public void onCaptureStart() {
+		showLoading(true);
 	}
 
 	@Override
@@ -259,4 +310,5 @@ public class ARActivity extends BaseARActivity<ActivityArBinding, ARViewModel> {
 	protected Class<ARViewModel> getVMClass() {
 		return ARViewModel.class;
 	}
+
 }

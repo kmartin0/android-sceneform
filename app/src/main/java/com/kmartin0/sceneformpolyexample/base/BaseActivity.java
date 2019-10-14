@@ -9,7 +9,10 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import com.kmartin0.sceneformpolyexample.R;
@@ -43,13 +46,11 @@ public abstract class BaseActivity<VDB extends ViewDataBinding, VM extends BaseV
 					.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
 		}
 
-//		viewModel.isLoading().observe(this, this::showLoading);
+		viewModel.isLoading().observe(this, this::showLoading);
 	}
 
 	public void showLoading(boolean visibility) {
-
-//		if (progressBar != null) progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
-//		if (progressBar != null) Log.i("TAGZ", "Progress Visibility: " + progressBar.getVisibility());
+		if (progressBar != null) progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
