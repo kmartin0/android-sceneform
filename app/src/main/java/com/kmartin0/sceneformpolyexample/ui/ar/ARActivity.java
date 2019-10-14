@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.kmartin0.sceneformpolyexample.R;
-import com.kmartin0.sceneformpolyexample.base.SingleModelARActivity;
 import com.kmartin0.sceneformpolyexample.databinding.ActivityArBinding;
 import com.kmartin0.sceneformpolyexample.util.CaptureSceneHelper;
 import com.kmartin0.sceneformpolyexample.util.Constants;

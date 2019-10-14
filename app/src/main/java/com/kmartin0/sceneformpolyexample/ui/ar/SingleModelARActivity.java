@@ -1,4 +1,4 @@
-package com.kmartin0.sceneformpolyexample.base;
+package com.kmartin0.sceneformpolyexample.ui.ar;
 
 import android.animation.ObjectAnimator;
 import android.net.Uri;
@@ -20,6 +20,8 @@ import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.kmartin0.sceneformpolyexample.R;
+import com.kmartin0.sceneformpolyexample.base.BaseActivity;
+import com.kmartin0.sceneformpolyexample.base.BaseViewModel;
 import com.kmartin0.sceneformpolyexample.util.DialogUtils;
 import com.kmartin0.sceneformpolyexample.util.DimenUtils;
 import com.kmartin0.sceneformpolyexample.ui.ar.node.CustomNode;
