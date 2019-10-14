@@ -10,7 +10,7 @@
             type="com.kmartin0.sceneformpolyexample.ui.dashboard.DashboardViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:visibility="visible"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/modelRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -46,5 +46,5 @@
 
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

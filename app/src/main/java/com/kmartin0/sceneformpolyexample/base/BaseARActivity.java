@@ -1,11 +1,11 @@
 package com.kmartin0.sceneformpolyexample.base;
 
 import android.animation.ObjectAnimator;
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;

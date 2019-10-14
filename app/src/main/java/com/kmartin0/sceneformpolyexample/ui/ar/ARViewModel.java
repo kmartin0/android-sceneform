@@ -1,7 +1,7 @@
 package com.kmartin0.sceneformpolyexample.ui.ar;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.kmartin0.sceneformpolyexample.base.BaseViewModel;
 

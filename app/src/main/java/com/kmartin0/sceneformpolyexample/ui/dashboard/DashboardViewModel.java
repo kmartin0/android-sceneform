@@ -2,8 +2,8 @@ package com.kmartin0.sceneformpolyexample.ui.dashboard;
 
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.annotation.NonNull;
 
 import com.kmartin0.sceneformpolyexample.api.PolyResponse;
 import com.kmartin0.sceneformpolyexample.base.BaseViewModel;

@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 import android.view.PixelCopy;
 
 import com.google.ar.sceneform.ArSceneView;

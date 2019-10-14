@@ -1,11 +1,9 @@
 package com.kmartin0.sceneformpolyexample.ui.ar;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 
 import com.kmartin0.sceneformpolyexample.R;
 import com.kmartin0.sceneformpolyexample.base.BaseARActivity;
