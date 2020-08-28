@@ -15,6 +15,7 @@ import com.kmartin0.sceneformpolyexample.databinding.ActivityArBinding;
 import com.kmartin0.sceneformpolyexample.util.CaptureSceneHelper;
 import com.kmartin0.sceneformpolyexample.util.Constants;
 
+import java.io.File;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -257,19 +258,19 @@ public class ARActivity extends SingleModelARActivity<ActivityArBinding, ARViewM
 	 */
 	@OnClick(R.id.btn_capture)
 	public void captureScene() {
-		captureSceneHelper.captureScene();
+		captureSceneHelper.captureScene(this);
 	}
 
 	/**
 	 * Display a Snack bar message containing a success message and a button which redirects
 	 * the user to the created snapshot.
 	 *
-	 * @param filename String filename of the created snapshot
+	 * @param image File of the created snapshot
 	 */
 	@Override
-	public void onCaptureSuccess(String filename) {
+	public void onCaptureSuccess(File image) {
 		Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.photo_saved), Snackbar.LENGTH_LONG);
-		snackbar.setAction(getString(R.string.open_photo), v -> captureSceneHelper.openImageForFilename(this, filename));
+		snackbar.setAction(getString(R.string.open_photo), v -> captureSceneHelper.openSavedImage(this, image));
 		snackbar.show();
 		showLoading(false);
 		getArFragment().getArSceneView().getPlaneRenderer().setVisible(true);

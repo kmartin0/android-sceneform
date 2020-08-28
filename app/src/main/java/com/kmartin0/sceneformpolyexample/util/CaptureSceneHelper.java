@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import androidx.core.content.FileProvider;
+
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.PixelCopy;
 
 import com.google.ar.sceneform.ArSceneView;
@@ -35,7 +39,7 @@ public class CaptureSceneHelper {
 	/**
 	 * Takes a snapshot from the @arSceneView and saves it on the device.
 	 */
-	public void captureScene() {
+	public void captureScene(Context context) {
 		arSceneView.getPlaneRenderer().setVisible(false);
 
 		// Create a bitmap the size of the scene view.
@@ -52,7 +56,7 @@ public class CaptureSceneHelper {
 			// Make the request to copy.
 			PixelCopy.request(arSceneView, bitmap, (copyResult) -> {
 				if (copyResult == PixelCopy.SUCCESS) {
-					onPixelCopySuccess(bitmap);
+					onPixelCopySuccess(bitmap, context);
 				} else {
 					activity.runOnUiThread(() -> callbacks.onCaptureFail(getMessageForPixelCopyStatusCode(copyResult)));
 				}
@@ -67,11 +71,14 @@ public class CaptureSceneHelper {
 	 *
 	 * @param bitmap Bitmap created from the PixelCopy Request.
 	 */
-	private void onPixelCopySuccess(Bitmap bitmap) {
+	private void onPixelCopySuccess(Bitmap bitmap, Context context) {
 		String filename = generateFilename();
 		try {
-			saveBitmapToDisk(bitmap, filename);
-			activity.runOnUiThread(() -> callbacks.onCaptureSuccess(filename));
+			File savedPhoto = saveBitmapToDisk(bitmap, filename);
+			activity.runOnUiThread(() -> {
+				updateMediaStore(context, savedPhoto);
+				callbacks.onCaptureSuccess(savedPhoto);
+			});
 		} catch (IOException e) {
 			activity.runOnUiThread(() -> callbacks.onCaptureFail("Capture failed with error: " + e.getMessage()));
 		}
@@ -84,7 +91,7 @@ public class CaptureSceneHelper {
 	 * @param filename String filename to be used.
 	 * @throws IOException
 	 */
-	private void saveBitmapToDisk(Bitmap bitmap, String filename) throws IOException {
+	private File saveBitmapToDisk(Bitmap bitmap, String filename) throws IOException {
 		File out = new File(filename);
 		if (!out.getParentFile().exists()) {
 			out.getParentFile().mkdirs();
@@ -96,10 +103,12 @@ public class CaptureSceneHelper {
 		outputData.writeTo(outputStream);
 		outputStream.flush();
 		outputStream.close();
+
+		return out;
 	}
 
 	/**
-	 * Generate a filename using the current datetime in the mdpr_sb directory.
+	 * Generate a filename using the current datetime in the DCIM/Sceneform.
 	 *
 	 * @return String unique filename
 	 */
@@ -107,21 +116,24 @@ public class CaptureSceneHelper {
 		String date =
 				new SimpleDateFormat("yyyyMMddHHmmss", java.util.Locale.getDefault()).format(new Date());
 		return Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_PICTURES) + File.separator + "mdpr_sb/" + date + "_screenshot.jpg";
+				Environment.DIRECTORY_DCIM) + File.separator + "Sceneform/" + date + "_screenshot.png";
+	}
+
+	private void updateMediaStore(Context context, File file) {
+		MediaScannerConnection.scanFile(context, new String[]{file.getPath()}, new String[]{"image/png"}, null);
 	}
 
 	/**
 	 * Open an image using an action intent.
 	 *
 	 * @param context  Context of the activity.
-	 * @param filename String filename of the image to be opened.
+	 * @param photo File of the image to be opened.
 	 */
-	public void openImageForFilename(Context context, String filename) {
-		File photoFile = new File(filename);
+	public void openSavedImage(Context context, File photo) {
 
 		Uri photoURI = FileProvider.getUriForFile(context,
 				"com.kmartin.sceneformpolyexample.provider",
-				photoFile);
+				photo);
 
 		Intent intent = new Intent(Intent.ACTION_VIEW, photoURI);
 		intent.setDataAndType(photoURI, "image/*");
@@ -155,7 +167,7 @@ public class CaptureSceneHelper {
 	}
 
 	public interface CaptureSceneHelperCallbacks {
-		void onCaptureSuccess(String filename);
+		void onCaptureSuccess(File file);
 
 		void onCaptureFail(String message);
 
