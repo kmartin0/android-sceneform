@@ -12,5 +12,5 @@ Android AR application using Sceneform SDK to display .gltf or .glb 3D models fe
   - Resizing the model.
 - Make a picture of the view.
 
-![Home screenshot](https://github.com/kmartin0/assets/blob/master/android-sceneform-poly/Sceneform_Poly_Example_2.jpg?raw=true)
-![AR screenshot](https://github.com/kmartin0/assets/blob/master/android-sceneform-poly/Sceneform_Poly_Example_1.jpg?raw=true)
+![Home screenshot](https://github.com/kmartin0/assets/blob/master/android-sceneform-poly/sceneform_poly_example_2.jpg?raw=true)
+![AR screenshot](https://github.com/kmartin0/assets/blob/master/android-sceneform-poly/sceneform_poly_example_1.jpg?raw=true)
