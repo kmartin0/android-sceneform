@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sceneform Poly Example</string>
+    <string name="app_name">Android Sceneform</string>
     <string name="qr_scanner">Qr scanner</string>
 
     <!--Ar Strings-->

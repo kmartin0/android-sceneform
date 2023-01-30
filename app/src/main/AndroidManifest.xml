@@ -1,11 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.kmartin0.sceneformpolyexample">
+    package="com.kmartin0.sceneformexample">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera.ar"
@@ -23,7 +24,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.kmartin.sceneformpolyexample.provider"
+            android:authorities="com.kmartin.sceneformexample.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -36,7 +37,7 @@
             android:value="required" />
 
         <activity
-            android:name=".ui.dashboard.DashboardActivity"
+            android:name="com.kmartin0.sceneformexample.ui.dashboard.DashboardActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -46,12 +47,12 @@
         </activity>
 
         <activity
-            android:name=".ui.ar.ARActivity"
+            android:name="com.kmartin0.sceneformexample.ui.ar.ARActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name=".ui.barcode.BarcodeActivity" />
+        <activity android:name="com.kmartin0.sceneformexample.ui.barcode.BarcodeActivity" />
 
     </application>
 

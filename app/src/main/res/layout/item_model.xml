@@ -7,32 +7,23 @@
 
     <ImageView
         android:id="@+id/prevImageModel"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/model_thumbnail" />
+        android:contentDescription="@string/model_thumbnail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/model_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#b4000000"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:text="Display name"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <TextView
-            android:id="@+id/model_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Display name"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/model_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Description of model"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/model_name" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

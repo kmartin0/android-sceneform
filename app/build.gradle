@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 31
     defaultConfig {
-        applicationId "com.kmartin0.sceneformpolyexample"
+        applicationId "com.kmartin0.sceneformexample"
         minSdkVersion 24
         targetSdkVersion 31
         versionCode 1
@@ -96,6 +96,7 @@ dependencies {
     //ARCore
     implementation "com.google.ar.sceneform.ux:sceneform-ux:$sceneform_version"
     implementation "com.google.ar.sceneform:assets:$sceneform_version"
+    implementation "com.google.ar:core:1.35.0"
 
     /*Add QR Zxing Library Here */
     implementation "com.journeyapps:zxing-android-embedded:$zxingVersion"

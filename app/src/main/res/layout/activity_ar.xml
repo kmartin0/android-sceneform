@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.kmartin0.sceneformpolyexample.ui.ar.ARViewModel" />
+            type="com.kmartin0.sceneformexample.ui.ar.ARViewModel" />
 
     </data>
 
@@ -17,7 +17,7 @@
 
         <fragment
             android:id="@+id/fragment_ar"
-            android:name="com.kmartin0.sceneformpolyexample.ui.ar.CustomArFragment"
+            android:name="com.kmartin0.sceneformexample.ui.ar.CustomArFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
