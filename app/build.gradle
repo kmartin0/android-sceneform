@@ -104,5 +104,8 @@ dependencies {
     // Multidex
     implementation "androidx.multidex:multidex:$multidexVersion"
     implementation "com.google.android.gms:play-services-vision:$playServicesVisionVersion"
+
+
+    implementation 'io.github.nishkarsh:android-permissions:0.1.7'
 }
 apply plugin: 'com.google.ar.sceneform.plugin'
