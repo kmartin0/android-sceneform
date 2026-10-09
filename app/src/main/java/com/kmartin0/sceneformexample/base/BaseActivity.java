@@ -15,6 +15,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kmartin0.sceneformexample.R;
+import com.kmartin0.sceneformexample.util.EdgeToEdgeUtils;
 
 public abstract class BaseActivity<VDB extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
 
@@ -26,11 +27,14 @@ public abstract class BaseActivity<VDB extends ViewDataBinding, VM extends BaseV
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        // Must be called before super.onCreate
+        EdgeToEdgeUtils.enable(this);
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         viewModel = ViewModelProviders.of(this).get(getVMClass());
 
+        applySystemBarInsets(binding.getRoot());
         initViewModelBinding();
         binding.setLifecycleOwner(this);
 
@@ -62,6 +66,15 @@ public abstract class BaseActivity<VDB extends ViewDataBinding, VM extends BaseV
             getMenuInflater().inflate(getMenuLayoutId(), menu);
         }
         return true;
+    }
+
+    /**
+     * Keeps the content clear of the system bars. Override to inset specific views instead.
+     *
+     * @param root the root view of the activity layout.
+     */
+    protected void applySystemBarInsets(View root) {
+        EdgeToEdgeUtils.applyPadding(root);
     }
 
     /**

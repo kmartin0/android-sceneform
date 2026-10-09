@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -73,6 +78,29 @@ public class DashboardActivity
         Intent intent = new Intent(this, ARActivity.class);
         intent.putExtra(Constants.AR_MODEL_URI, Uri.parse(assetUri));
         startActivity(intent);
+    }
+
+    /**
+     * Pads the root by the top inset and paints it with the status bar color, while the list
+     * pads only the bottom so items scroll beneath the navigation bar.
+     *
+     * @param root the root view of the activity layout.
+     */
+    @Override
+    protected void applySystemBarInsets(View root) {
+        root.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        binding.modelRecyclerView.setBackgroundColor(
+                ContextCompat.getColor(this, android.R.color.white));
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                            | WindowInsetsCompat.Type.displayCutout()
+            );
+            view.setPadding(bars.left, bars.top, bars.right, 0);
+            binding.modelRecyclerView.setPadding(0, 0, 0, bars.bottom);
+            return WindowInsetsCompat.CONSUMED;
+        });
     }
 
     @Override
