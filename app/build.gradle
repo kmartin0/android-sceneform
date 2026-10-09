@@ -34,6 +34,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    namespace 'com.kmartin0.sceneformexample'
 }
 
 ext {
@@ -50,7 +51,6 @@ ext {
     rxjavaVersion = "2.2.10"
     gsonVersion = "2.8.5"
     glideVersion = '4.9.0'
-    butterKnifeVersion = '10.2.0'
     zxingVersion = '3.5.0'
     multidexVersion = '2.0.1'
     playServicesVisionVersion = '18.0.0'
@@ -89,16 +89,12 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
-    //Butterknife
-    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
-
     //ARCore
     implementation "com.google.ar.sceneform.ux:sceneform-ux:$sceneform_version"
     implementation "com.google.ar.sceneform:assets:$sceneform_version"
     implementation "com.google.ar:core:1.35.0"
 
-    /*Add QR Zxing Library Here */
+    // QR Zxing Library
     implementation "com.journeyapps:zxing-android-embedded:$zxingVersion"
 
     // Multidex

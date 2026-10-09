@@ -1,16 +1,12 @@
 package com.kmartin0.sceneformexample.ui.dashboard;
 
-import androidx.lifecycle.Observer;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.MenuItem;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -26,15 +22,12 @@ import com.kmartin0.sceneformexample.util.DialogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
-public class DashboardActivity extends BaseActivity<ActivityDashboardBinding, DashboardViewModel> implements SketchfabModelsAdapter.ItemClickListener {
-
-    @BindView(R.id.modelRecyclerView)
-    RecyclerView modelRecyclerView;
+public class DashboardActivity
+        extends BaseActivity<ActivityDashboardBinding, DashboardViewModel>
+        implements SketchfabModelsAdapter.ItemClickListener {
 
     private SketchfabModelsAdapter modelAdapter;
-    private List<SketchfabModel> sketchfabModels = new ArrayList<>();
+    private final List<SketchfabModel> sketchfabModels = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,28 +37,33 @@ public class DashboardActivity extends BaseActivity<ActivityDashboardBinding, Da
     }
 
     private void initObservers() {
-        viewModel.fetchSketchfabModels().observe(this, new Observer<List<SketchfabModel>>() {
-            @Override
-            public void onChanged(@Nullable List<SketchfabModel> sketchfabResponse) {
-                sketchfabModels.clear();
-                sketchfabModels.addAll(sketchfabResponse);
-                modelAdapter.notifyDataSetChanged();
+        viewModel.fetchSketchfabModels().observe(this, sketchfabResponse -> {
+            if (sketchfabResponse == null) {
+                return;
             }
+
+            sketchfabModels.clear();
+            sketchfabModels.addAll(sketchfabResponse);
+            modelAdapter.notifyDataSetChanged();
         });
 
-        viewModel.getError().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                DialogUtils.showToast(DashboardActivity.this, s);
-            }
-        });
+        viewModel.getError().observe(this,
+                error -> DialogUtils.showToast(DashboardActivity.this, error));
     }
 
     private void initAssetListView() {
         modelAdapter = new SketchfabModelsAdapter(sketchfabModels, this);
-        modelRecyclerView.setAdapter(modelAdapter);
-        modelRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        modelRecyclerView.setHasFixedSize(true);
+
+        binding.modelRecyclerView.setAdapter(modelAdapter);
+        binding.modelRecyclerView.setLayoutManager(
+                new LinearLayoutManager(
+                        this,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                )
+        );
+        binding.modelRecyclerView.setHasFixedSize(true);
+
         for (String id : Constants.SKETCHFAB_ASSETS_UIDS) {
             viewModel.fetchSketchfabModels(id);
         }
@@ -79,20 +77,22 @@ public class DashboardActivity extends BaseActivity<ActivityDashboardBinding, Da
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_qr_scanner: {
-                new IntentIntegrator(this).setCaptureActivity(BarcodeActivity.class).initiateScan();
-                return true;
-            }
+        if (item.getItemId() == R.id.action_qr_scanner) {
+            new IntentIntegrator(this)
+                    .setCaptureActivity(BarcodeActivity.class)
+                    .initiateScan();
+
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //We will get scan results here
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        //check for null
+        IntentResult result =
+                IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
         if (result != null) {
             if (result.getContents() == null) {
                 DialogUtils.showToast(this, "Scan Cancelled");
@@ -100,7 +100,6 @@ public class DashboardActivity extends BaseActivity<ActivityDashboardBinding, Da
                 startArActivity(result.getContents());
             }
         } else {
-            // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -123,21 +122,15 @@ public class DashboardActivity extends BaseActivity<ActivityDashboardBinding, Da
     @Override
     public void onItemClick(SketchfabModel sketchfabModel) {
         viewModel.fetchSketchfabDownloadUrl(sketchfabModel.getUid());
-        viewModel.getSketchfabDownloadUrl().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String sketchfabDownloadUrl) {
-                if (sketchfabDownloadUrl != null) {
-                    viewModel.getSketchfabDownloadUrl().removeObserver(this);
-                    startArActivity(sketchfabDownloadUrl);
-                }
+
+        viewModel.getSketchfabDownloadUrl().observe(this, sketchfabDownloadUrl -> {
+            if (sketchfabDownloadUrl != null) {
+                startArActivity(sketchfabDownloadUrl);
             }
         });
-
-
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
-
     }
 }

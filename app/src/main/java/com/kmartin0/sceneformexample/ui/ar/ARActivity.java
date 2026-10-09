@@ -1,10 +1,10 @@
 package com.kmartin0.sceneformexample.ui.ar;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,18 +18,8 @@ import com.kmartin0.sceneformexample.util.Constants;
 import java.io.File;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import butterknife.OnTouch;
-
 public class ARActivity extends SingleModelARActivity<ActivityArBinding, ARViewModel>
 		implements CaptureSceneHelper.CaptureSceneHelperCallbacks {
-
-	@BindView(R.id.btn_add)
-	ImageButton btnAdd;
-
-	@BindView(R.id.btn_remove)
-	ImageButton btnRemove;
 
 	private Uri modelURI;
 	private CaptureSceneHelper captureSceneHelper;
@@ -37,14 +27,110 @@ public class ARActivity extends SingleModelARActivity<ActivityArBinding, ARViewM
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		modelURI = (Uri) Objects.requireNonNull(getIntent().getExtras()).get(Constants.AR_MODEL_URI);
-		captureSceneHelper = new CaptureSceneHelper(this, getArFragment().getArSceneView(), this);
+
+		modelURI = (Uri) Objects.requireNonNull(getIntent().getExtras())
+				.get(Constants.AR_MODEL_URI);
+
+		captureSceneHelper = new CaptureSceneHelper(
+				this,
+				getArFragment().getArSceneView(),
+				this
+		);
+
+		initListeners();
+	}
+
+	private void initListeners() {
+		binding.btnAdd.setOnClickListener(v -> addObjectToPlane());
+		binding.btnRemove.setOnClickListener(v -> removeObjectFromPlane());
+		binding.btnBack.setOnClickListener(v -> finishActivity());
+		binding.btnCapture.setOnClickListener(v -> captureScene());
+
+		setHoldListener(
+				binding.btnRotateCounterClockwise,
+				() -> getNode().startRotateCounterClockwise(),
+				() -> getNode().stopRotateCounterClockwise()
+		);
+
+		setHoldListener(
+				binding.btnRotateClockwise,
+				() -> getNode().startRotateClockwise(),
+				() -> getNode().stopRotateClockwise()
+		);
+
+		setHoldListener(
+				binding.btnRotateUpward,
+				() -> getNode().startRotateUpward(),
+				() -> getNode().stopRotateUpward()
+		);
+
+		setHoldListener(
+				binding.btnRotateDownward,
+				() -> getNode().startRotateDownward(),
+				() -> getNode().stopRotateDownward()
+		);
+
+		setHoldListener(
+				binding.btnEnlarge,
+				() -> getNode().startEnlarge(),
+				() -> getNode().stopEnlarge()
+		);
+
+		setHoldListener(
+				binding.btnShrink,
+				() -> getNode().startShrink(),
+				() -> getNode().stopShrink()
+		);
+
+		setHoldListener(
+				binding.btnMoveUp,
+				() -> getNode().startMoveUp(),
+				() -> getNode().stopMoveUp()
+		);
+
+		setHoldListener(
+				binding.btnMoveDown,
+				() -> getNode().startMoveDown(),
+				() -> getNode().stopMoveDown()
+		);
+	}
+
+	@SuppressLint("ClickableViewAccessibility")
+	private void setHoldListener(View view, Runnable startAction, Runnable stopAction) {
+		view.setOnTouchListener((v, event) -> {
+			switch (event.getActionMasked()) {
+				case MotionEvent.ACTION_DOWN:
+					if (!isAnchorSet()) {
+						return false;
+					}
+
+					startAction.run();
+					return true;
+
+				case MotionEvent.ACTION_UP:
+					if (isAnchorSet()) {
+						stopAction.run();
+					}
+
+					v.performClick();
+					return true;
+
+				case MotionEvent.ACTION_CANCEL:
+					if (isAnchorSet()) {
+						stopAction.run();
+					}
+
+					return true;
+
+				default:
+					return false;
+			}
+		});
 	}
 
 	/**
 	 * Adds a model to the anchor if no object is on the plane.
 	 */
-	@OnClick(R.id.btn_add)
 	public void addObjectToPlane() {
 		addObject(modelURI);
 	}
@@ -52,232 +138,64 @@ public class ARActivity extends SingleModelARActivity<ActivityArBinding, ARViewM
 	/**
 	 * Removes the anchorNode from the scene.
 	 */
-	@OnClick(R.id.btn_remove)
 	public void removeObjectFromPlane() {
 		removeObject();
 	}
 
 	/**
-	 * Rotates the node to the left when the motion event is DOWN.
-	 * stops rotating when the motion event is UP
+	 * Finish activity.
 	 */
-	@OnTouch(R.id.btn_rotate_counter_clockwise)
-	public boolean rotateLeft(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startRotateCounterClockwise();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopRotateCounterClockwise();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Rotates the node to the right when the motion event is DOWN.
-	 * stops rotating when the motion event is UP
-	 */
-	@OnTouch(R.id.btn_rotate_clockwise)
-	public boolean rotateRight(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startRotateClockwise();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopRotateClockwise();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Rotates the node in an upward direction when the motion event is DOWN.
-	 * stops rotating when the motion event is UP.
-	 */
-	@OnTouch(R.id.btn_rotate_upward)
-	public boolean rotateUpward(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startRotateUpward();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopRotateUpward();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Rotates the node in an downward direction when the motion event is DOWN.
-	 * stops rotating when the motion event is UP.
-	 */
-	@OnTouch(R.id.btn_rotate_downward)
-	public boolean rotateBackward(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startRotateDownward();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopRotateDownward();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Enlarges the node when the motion event is DOWN.
-	 * stops enlarging when the motion event is UP
-	 */
-	@OnTouch(R.id.btn_enlarge)
-	public boolean enlarge(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startEnlarge();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopEnlarge();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Shrinks the node when the motion event is DOWN.
-	 * stops shrinking when the motion event is UP
-	 */
-	@OnTouch(R.id.btn_shrink)
-	public boolean shrink(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startShrink();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopShrink();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Moves the node in an upward direction when the motion event is DOWN.
-	 * stops rotating when the motion event is UP.
-	 */
-	@OnTouch(R.id.btn_move_up)
-	public boolean lift(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startMoveUp();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopMoveUp();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Moves the node in an downward direction when the motion event is DOWN.
-	 * stops rotating when the motion event is UP.
-	 */
-	@OnTouch(R.id.btn_move_down)
-	public boolean down(MotionEvent motionEvent) {
-		if (!isAnchorSet()) return false;
-
-		switch (motionEvent.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				getNode().startMoveDown();
-				return true;
-			}
-			case MotionEvent.ACTION_UP: {
-				getNode().stopMoveDown();
-				return true;
-			}
-			default:
-				return false;
-		}
-	}
-
-	/**
-	 * Finish activity
-	 */
-	@OnClick(R.id.btn_back)
 	public void finishActivity() {
 		finish();
 	}
 
 	@Override
 	protected void onModelAddedToScene() {
-		btnAdd.setVisibility(View.INVISIBLE);
-		btnRemove.setVisibility(View.VISIBLE);
+		binding.btnAdd.setVisibility(View.INVISIBLE);
+		binding.btnRemove.setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	protected void onModelRemovedToScene() {
-		btnAdd.setVisibility(View.VISIBLE);
-		btnRemove.setVisibility(View.INVISIBLE);
+		binding.btnAdd.setVisibility(View.VISIBLE);
+		binding.btnRemove.setVisibility(View.INVISIBLE);
 	}
 
 	/**
-	 * Create a snapshot of the current ar surface view.
+	 * Create a snapshot of the current AR surface view.
 	 */
-	@OnClick(R.id.btn_capture)
 	public void captureScene() {
 		captureSceneHelper.captureScene(this);
 	}
 
 	/**
-	 * Display a Snack bar message containing a success message and a button which redirects
+	 * Display a Snackbar containing a success message and a button which redirects
 	 * the user to the created snapshot.
 	 *
-	 * @param image File of the created snapshot
+	 * @param image File of the created snapshot.
 	 */
 	@Override
 	public void onCaptureSuccess(File image) {
-		Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.photo_saved), Snackbar.LENGTH_LONG);
-		snackbar.setAction(getString(R.string.open_photo), v -> captureSceneHelper.openSavedImage(this, image));
+		Snackbar snackbar = Snackbar.make(
+				findViewById(android.R.id.content),
+				getString(R.string.photo_saved),
+				Snackbar.LENGTH_LONG
+		);
+
+		snackbar.setAction(
+				getString(R.string.open_photo),
+				v -> captureSceneHelper.openSavedImage(this, image)
+		);
+
 		snackbar.show();
+
 		showLoading(false);
 		getArFragment().getArSceneView().getPlaneRenderer().setVisible(true);
 	}
 
 	/**
-	 * Display the message of the failed capture and set the ArSceneView back to it's normal state.
+	 * Display the message of the failed capture and set the ArSceneView
+	 * back to its normal state.
 	 *
 	 * @param message String message to be displayed.
 	 */
@@ -310,5 +228,4 @@ public class ARActivity extends SingleModelARActivity<ActivityArBinding, ARViewM
 	protected Class<ARViewModel> getVMClass() {
 		return ARViewModel.class;
 	}
-
 }

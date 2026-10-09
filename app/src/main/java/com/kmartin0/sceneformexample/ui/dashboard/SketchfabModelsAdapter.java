@@ -29,7 +29,7 @@ public class SketchfabModelsAdapter extends RecyclerView.Adapter<SketchfabModels
 
     // inflates the row layout from xml when needed
     @NonNull
-	@Override
+    @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_model, parent, false);
@@ -65,7 +65,7 @@ public class SketchfabModelsAdapter extends RecyclerView.Adapter<SketchfabModels
 
             itemView.setOnClickListener(v -> {
                 if (modelClickListener != null)
-                modelClickListener.onItemClick(modelData.get(getAdapterPosition())); // TODO: Download link
+                    modelClickListener.onItemClick(modelData.get(getAdapterPosition())); // TODO: Download link
             });
         }
     }

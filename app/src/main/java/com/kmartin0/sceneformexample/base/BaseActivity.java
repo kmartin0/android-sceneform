@@ -1,87 +1,92 @@
 package com.kmartin0.sceneformexample.base;
 
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.MenuRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.kmartin0.sceneformexample.R;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.ViewModelProviders;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.kmartin0.sceneformexample.R;
 
 public abstract class BaseActivity<VDB extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity {
 
-	protected VDB binding;
-	protected VM viewModel;
+    protected VDB binding;
+    protected VM viewModel;
 
-	@BindView(R.id.progress_circle)
-	@Nullable
-	ProgressBar progressBar;
+    @Nullable
+    private ProgressBar progressBar;
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		binding = DataBindingUtil.setContentView(this, getLayoutId());
-		viewModel = ViewModelProviders.of(this).get(getVMClass());
-		initViewModelBinding();
-		binding.setLifecycleOwner(this);
-		ButterKnife.bind(this);
-		initProgressBar();
-	}
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	private void initProgressBar() {
-		if (progressBar != null) {
-			progressBar.getIndeterminateDrawable()
-					.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
-		}
+        binding = DataBindingUtil.setContentView(this, getLayoutId());
+        viewModel = ViewModelProviders.of(this).get(getVMClass());
 
-		viewModel.isLoading().observe(this, this::showLoading);
-	}
+        initViewModelBinding();
+        binding.setLifecycleOwner(this);
 
-	public void showLoading(boolean visibility) {
-		if (progressBar != null) progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
-	}
+        progressBar = findViewById(R.id.progress_circle);
+        initProgressBar();
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (getMenuLayoutId() != -1) getMenuInflater().inflate(getMenuLayoutId(), menu);
-		return true;
-	}
+    private void initProgressBar() {
+        if (progressBar != null) {
+            progressBar.getIndeterminateDrawable()
+                    .setColorFilter(
+                            Color.RED,
+                            android.graphics.PorterDuff.Mode.MULTIPLY
+                    );
+        }
 
-	/**
-	 * @return Integer the res id of the activity layout.
-	 */
-	@LayoutRes
-	protected abstract Integer getLayoutId();
+        viewModel.isLoading().observe(this, this::showLoading);
+    }
 
-	/**
-	 * Set the viewModel in the ActivityBinding.
-	 */
-	protected abstract void initViewModelBinding();
+    public void showLoading(boolean visibility) {
+        if (progressBar != null) {
+            progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        }
+    }
 
-	/**
-	 * @return Class of the ViewModel.
-	 */
-	protected abstract Class<VM> getVMClass();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (getMenuLayoutId() != -1) {
+            getMenuInflater().inflate(getMenuLayoutId(), menu);
+        }
+        return true;
+    }
 
-	/**
-	 * Override this method with a valid menu id or -1.
-	 *
-	 * @return the menu resource id to be used.
-	 */
-	@MenuRes
-	protected int getMenuLayoutId() {
-		return R.menu.menu_main;
-	}
+    /**
+     * @return Integer the res id of the activity layout.
+     */
+    @LayoutRes
+    protected abstract Integer getLayoutId();
 
+    /**
+     * Set the viewModel in the ActivityBinding.
+     */
+    protected abstract void initViewModelBinding();
+
+    /**
+     * @return Class of the ViewModel.
+     */
+    protected abstract Class<VM> getVMClass();
+
+    /**
+     * Override this method with a valid menu id or -1.
+     *
+     * @return the menu resource id to be used.
+     */
+    @MenuRes
+    protected int getMenuLayoutId() {
+        return R.menu.menu_main;
+    }
 }
