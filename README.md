@@ -1,16 +1,31 @@
 # Android Sceneform Showcase
-Android AR application using Sceneform SDK to display .gltf or .glb 3D models fetched using the SketchfabF.
+
+Android augmented reality application using the Sceneform SDK to display `.gltf` and `.glb` 3D models.
+
+Models can be selected from predefined Sketchfab examples or loaded by scanning a QR code that points to a supported 3D model file.
 
 ## Features
-- Display .gltf or .glb 3D model on a plane.
-- Choose one of the default examples fetched from Sketchfab Api or Scan a QR code which directs to a 3D model file.
-- The model can be interacted with using the manipulation button which supports:
-  - Moving the model to a different location on the plane.
-  - Moving the model up or down.
-  - Rotating the model on the X-axis.
-  - Rotating the model on the Y-axis.
-  - Resizing the model.
-- Make a picture of the view.
 
-![Home screenshot](https://github.com/kmartin0/assets/blob/master/android-sceneform-poly/sceneform_poly_example_2.jpg?raw=true)
-![AR screenshot](https://github.com/kmartin0/assets/blob/master/android-sceneform-poly/sceneform_poly_example_1.jpg?raw=true)
+- Display `.gltf` and `.glb` 3D models on detected planes.
+- Choose from predefined examples fetched from the Sketchfab API.
+- Scan a QR code that links to a 3D model file.
+- Move the model to a different location on the plane.
+- Move the model vertically.
+- Rotate the model around the X-axis.
+- Rotate the model around the Y-axis.
+- Resize the model.
+- Capture a picture of the AR view.
+
+## Technical Overview
+
+- Android.
+- Sceneform SDK for augmented reality rendering.
+- Sketchfab API for retrieving example 3D models.
+- QR code scanning for loading external model files.
+- Support for `.gltf` and `.glb` model formats.
+
+## Screenshots
+
+<img src="https://github.com/kmartin0/assets/blob/master/sceneform-android/android-sceneform_home.png?raw=true" alt="Home screenshot" width="300" />
+
+<img src="https://github.com/kmartin0/assets/blob/master/sceneform-android/android-sceneform_ar.png?raw=true" alt="AR model screenshot" width="300" />
