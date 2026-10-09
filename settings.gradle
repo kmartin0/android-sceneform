@@ -1,1 +1,3 @@
+rootProject.name = "Sceneform Showcase"
+
 include ':app'
