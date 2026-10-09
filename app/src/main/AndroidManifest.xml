@@ -10,6 +10,9 @@
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +26,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.kmartin.sceneformexample.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -36,7 +39,7 @@
             android:value="required" />
 
         <activity
-            android:name="com.kmartin0.sceneformexample.ui.dashboard.DashboardActivity"
+            android:name=".ui.dashboard.DashboardActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -46,14 +49,15 @@
         </activity>
 
         <activity
-            android:name="com.kmartin0.sceneformexample.ui.ar.ARActivity"
-            android:exported="true"
+            android:name=".ui.ar.ARActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <activity android:name="com.kmartin0.sceneformexample.ui.barcode.BarcodeActivity" />
+        <activity
+            android:name=".ui.barcode.BarcodeActivity"
+            android:exported="false" />
 
     </application>
-
 
 </manifest>

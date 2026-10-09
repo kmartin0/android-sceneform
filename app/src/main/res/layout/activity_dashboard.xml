@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.kmartin0.sceneformexample.ui.dashboard.DashboardViewModel" />
+            type="nl.kmartin.sceneformshowcase.ui.dashboard.DashboardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

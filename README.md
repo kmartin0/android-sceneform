@@ -1,4 +1,4 @@
-# Android Sceneform Showcase
+# Sceneform Showcase Android
 
 Android augmented reality application using the Sceneform SDK to display `.gltf` and `.glb` 3D models.
 

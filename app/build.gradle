@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.kmartin0.sceneformexample"
+    namespace = "nl.kmartin.sceneformshowcase"
+
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.kmartin0.sceneformexample"
+        applicationId = "nl.kmartin.sceneformshowcase"
         minSdk = 30
         targetSdk = 37
         versionCode = 1
