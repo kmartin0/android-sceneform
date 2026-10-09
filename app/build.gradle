@@ -1,40 +1,36 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    namespace = "com.kmartin0.sceneformexample"
+    compileSdk = 37
+
     defaultConfig {
-        applicationId "com.kmartin0.sceneformexample"
-        minSdkVersion 24
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
-        // To re-enable the build cache, either delete the following
-        // line or set the property to 'true'.
-        // android.enableBuildCache=false
+        applicationId = "com.kmartin0.sceneformexample"
+        minSdk = 24
+        targetSdk = 31
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
-    dexOptions {
-        preDexLibraries true
+    buildFeatures {
+        dataBinding = true
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    namespace 'com.kmartin0.sceneformexample'
 }
 
 ext {
@@ -47,9 +43,9 @@ ext {
     lifecycleExtensionsVersion = '2.1.0'
     retrofitVersion = '2.4.0'
     okHttpVersion = '3.12.0'
-    rxAndroidVersion = "2.1.1"
-    rxjavaVersion = "2.2.10"
-    gsonVersion = "2.8.5"
+    rxAndroidVersion = '2.1.1'
+    rxjavaVersion = '2.2.10'
+    gsonVersion = '2.8.5'
     glideVersion = '4.9.0'
     zxingVersion = '3.5.0'
     multidexVersion = '2.0.1'
@@ -58,13 +54,15 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+
     testImplementation "junit:junit:$jUnitVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
-    // Support Design
+    // Material
     implementation "com.google.android.material:material:$materialVersion"
 
     // Architecture Components
@@ -75,33 +73,36 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
-    //Http logging
+    // HTTP logging
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
-    //Rx
+    // RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
-    //Gson
+    // Gson
     implementation "com.google.code.gson:gson:$gsonVersion"
 
-    //Glide
+    // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
-    //ARCore
+    // ARCore / Sceneform
     implementation "com.google.ar.sceneform.ux:sceneform-ux:$sceneform_version"
     implementation "com.google.ar.sceneform:assets:$sceneform_version"
     implementation "com.google.ar:core:1.35.0"
 
-    // QR Zxing Library
+    // QR scanning
     implementation "com.journeyapps:zxing-android-embedded:$zxingVersion"
 
     // Multidex
     implementation "androidx.multidex:multidex:$multidexVersion"
+
+    // Google Play Services
     implementation "com.google.android.gms:play-services-vision:$playServicesVisionVersion"
 
-
+    // Permissions
     implementation 'io.github.nishkarsh:android-permissions:0.1.7'
 }
+
 apply plugin: 'com.google.ar.sceneform.plugin'
